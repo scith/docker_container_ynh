@@ -31,7 +31,12 @@ else
 fi
 
 # Create Docker container
-sudo docker run $command --name=$name $repository
+sudo docker run -d $command --name=$name $repository
+
+# Manage container as daemon
+#sed -i "s@PATHTOCHANGE@$path@g" ../conf/init.d
+#sudo cp ../conf/init.d /etc/init.d/container-$name
+#sudo yunohost service add container-$name
 
 sudo service nginx reload
 sudo yunohost app ssowatconf
