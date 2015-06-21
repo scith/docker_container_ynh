@@ -1,16 +1,26 @@
 #!/bin/bash
 ### BEGIN INIT INFO
-
+# Provides:          skeleton
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Example initscript
+# Description:       This file should be used to construct scripts to be
+#                    placed in /etc/init.d.
 ### END INIT INFO
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
-NAME=container-@CONTAINERNAME@
-CONTAINER=@CONTAINERNAME@
-USER=admin
-export LOGNAME=$USER
+DESC="Docker container CONTAINERNAME"
+NAME=container-CONTAINERNAME
+CONTAINER=CONTAINERNAME
+DAEMON=/usr/bin/docker
+SCRIPTNAME=/etc/init.d/$NAME
+DAEMONUSER=admin
+#LOGFILE=/usr/bin/docker logs -f $CONTAINER
 
-test -x $DAEMON || exit 0
-set -e
+# Exit if the package is not installed
+[ -x "$DAEMON" ] || exit 0
 
 function _status() {
     #?
