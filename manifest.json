@@ -1,5 +1,5 @@
 {
-    "name": "Docker",
+    "name": "Docker Container",
     "id": "dockercontainer",
     "description": {
         "en": "Docker allows to deploy applications which have not yet been integrated with YunoHost",
@@ -51,7 +51,7 @@
                     "en": "Enter the container's options",
                     "fr": "Entrez les options du conteneur"
                 },
-                "example": "--restart always -p 8989:8989 -v /home/media/:/volumes/media"
+                "example": "-p 8989:8989 -v /home/media/:/volumes/media"
             }
         ]
     }
