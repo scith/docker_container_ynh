@@ -6,7 +6,8 @@ set -e
 domain=$1
 name=$2
 repository=$3
-command=$4
+restart=$4
+command=$5
 
 # Check ports availability
 #sudo yunohost app checkport 9000
@@ -27,16 +28,22 @@ else
 	sudo service docker start 
 	sudo usermod -aG docker admin
 	newgrp docker
-	sudo service docker restart
 fi
+sudo service docker restart
 
 # Create Docker container
+if [ "$restart" = "Yes" ];
+then
+	command+=" --restart always"
+fi
+
 sudo docker run -d $command --name=$name $repository
 
 # Manage container as daemon
-#sed -i "s@PATHTOCHANGE@$path@g" ../conf/init.d
-#sudo cp ../conf/init.d /etc/init.d/container-$name
-#sudo yunohost service add container-$name
+sed -i "s@CONTAINERNAME@g" ../conf/init.d
+sudo cp ../conf/init.d /etc/init.d/container-$name
+sudo chmod 0755 /etc/init.d/container-$name
+sudo yunohost service add container-$name
 
 sudo service nginx reload
 sudo yunohost app ssowatconf

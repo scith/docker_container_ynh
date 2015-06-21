@@ -36,6 +36,15 @@
                 },
                 "example": "tuxeh/sonarr"
             },
+			{
+                "name": "restart",
+                "ask": {
+                    "en": "Do you want the container to be always restarted?",
+                    "fr": "Souhaitez-vous que le conteneur soit automatiquement redémarré ?"
+                },
+                "choices": ["Yes", "No"],
+                "default": "Yes"
+            },
             {
                 "name": "command",
                 "ask": {
