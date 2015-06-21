@@ -1,0 +1,49 @@
+{
+    "name": "Docker",
+    "id": "dockercontainer",
+    "description": {
+        "en": "Docker allows to deploy applications which have not yet been integrated with YunoHost",
+        "fr": "Docker permet de déployer des applications qui n'ont pas encore été intégrées à YunoHost"
+    },
+    "developer": {
+        "name": "scith"
+    },
+    "multi_instance": "true",
+    "arguments": {
+        "install" : [
+            {
+                "name": "domain",
+                "type": "domain",
+                "ask": {
+                    "en": "Choose a domain for Docker",
+                    "fr": "Choisissez un domaine pour Docker"
+                },
+                "example": "domain.org"
+            },
+			{
+                "name": "name",
+                "ask": {
+                    "en": "Enter the container's name",
+                    "fr": "Entrez le nom du conteneur"
+                },
+                "example": "sonarr"
+            },
+			{
+                "name": "repository",
+                "ask": {
+                    "en": "Enter the container's repository (http://registry.hub.docker.com)",
+                    "fr": "Entrez le dépôt du conteneur (http://registry.hub.docker.com)"
+                },
+                "example": "tuxeh/sonarr"
+            },
+            {
+                "name": "command",
+                "ask": {
+                    "en": "Enter the container's options",
+                    "fr": "Entrez les options du conteneur"
+                },
+                "example": "--restart always -p 8989:8989 -v /home/media/:/volumes/media"
+            }
+        ]
+    }
+}

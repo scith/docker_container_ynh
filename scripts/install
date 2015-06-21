@@ -1,0 +1,37 @@
+#!/bin/bash
+
+set -e
+
+# Retrieve arguments
+domain=$1
+name=$2
+repository=$3
+command=$4
+
+# Check ports availability
+#sudo yunohost app checkport 9000
+#if [[ ! $? -eq 0 ]]; then
+#  exit 1
+#fi
+
+sudo yunohost app setting dockercontainer name -v $name
+
+# Install Docker if it is not installed yet
+if [ -f /usr/bin/docker ]; then
+	echo "Docker is already installed"
+else
+	echo "Docker will now be installed"
+	sudo apt-get install curl -y -qq
+	sudo curl -sSL https://get.docker.com/ | sh
+	sudo yunohost service add docker
+	sudo service docker start 
+	sudo usermod -aG docker admin
+	newgrp docker
+	sudo service docker restart
+fi
+
+# Create Docker container
+sudo docker run $command --name=$name $repository
+
+sudo service nginx reload
+sudo yunohost app ssowatconf
