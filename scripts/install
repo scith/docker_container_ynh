@@ -40,7 +40,7 @@ fi
 sudo docker run -d $command --name=$name $repository
 
 # Manage container as daemon
-sed -i "s@CONTAINERNAME@g" ../conf/init.d
+sed -i "s@CONTAINERNAME@$name@g" ../conf/init.d
 sudo cp ../conf/init.d /etc/init.d/container-$name
 sudo chmod 0755 /etc/init.d/container-$name
 sudo yunohost service add container-$name
