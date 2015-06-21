@@ -1,8 +1,10 @@
 #!/bin/bash
 
-domain=$(sudo yunohost app setting dockerui domain)
+domain=$(sudo yunohost app setting dockercontainer domain)
 name=$(sudo yunohost app setting dockercontainer name)
-sudo rm /etc/nginx/conf.d/$domain.d/dockerui.conf
+
+sudo yunohost service remove container-$name
+sudo rm /etc/init.d/container-$name
 
 sudo docker stop $name
 sudo docker rm $name
