@@ -78,8 +78,7 @@
                     "en": "If so, Choose a path for the container's app",
                     "fr": "Si oui, Choisissez un chemin pour l'app du conteneur"
                 },
-                "example": "/sonarr",
-                "default": "/sonarr"
+                "example": "/sonarr"
             },
 			{
                 "name": "redirect_port",
@@ -87,8 +86,7 @@
                     "en": "If so, Choose a host port (NOT a container port!) which will be redirected to the domain/path",
                     "fr": "Si oui, Choisissez un port hôte (ET NON un port conteneur !) qui sera redirigé vers le domaine/chemin"
                 },
-                "example": "8989",
-                "default": "8989"
+                "example": "8989"
             },
 			{
                 "name": "redirect_public",
