@@ -47,7 +47,7 @@ sudo docker run -d $command --name=$name $repository
 #sudo yunohost service add container-$name
 
 # Manage container as daemon with systemd
-sudo sed -i "s@CONTAINERNAME$name@g" ../conf/systemd.service
+sudo sed -i "s@CONTAINERNAME@$name@g" ../conf/systemd.service
 sudo cp ../conf/systemd.service /etc/systemd/system/multi-user.target.wants/container-$name.service
 sudo chmod 644 /etc/init.d/container-$name
 sudo systemctl daemon-reload
