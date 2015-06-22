@@ -11,15 +11,6 @@
     "multi_instance": "true",
     "arguments": {
         "install" : [
-            {
-                "name": "domain",
-                "type": "domain",
-                "ask": {
-                    "en": "Choose a domain for Docker",
-                    "fr": "Choisissez un domaine pour Docker"
-                },
-                "example": "domain.org"
-            },
 			{
                 "name": "name",
                 "ask": {
@@ -45,6 +36,15 @@
                 "choices": ["Yes", "No"],
                 "default": "Yes"
             },
+			{
+                "name": "home",
+                "ask": {
+                    "en": "Do you want to mount the volume /home/yunohost.docker/container-NAME inside the container as /home/yunohost?",
+                    "fr": "Souhaitez-vous monter le volume /home/yunohost.docker/container-NAME dans votre conteneur comme /home/yunohost ?"
+                },
+                "choices": ["Yes", "No"],
+                "default": "No"
+            },
             {
                 "name": "command",
                 "ask": {
@@ -52,6 +52,52 @@
                     "fr": "Entrez les options du conteneur"
                 },
                 "example": "-p 8989:8989 -v /home/media/:/volumes/media"
+            },
+			{
+                "name": "redirect",
+                "ask": {
+                    "en": "Do you want create a YunoHost app for this container? If so, you will be asked the domain and path which will be linked to the host port. If you want to redirect more ports, please use https://github.com/scith/shortcut_ynh",
+                    "fr": "Souhaitez-vous créer une app YunoHost pour ce conteneur ? Si oui, vous devrez rentrer le domaine et le chemin qui seront attribués au port de l'hôte. Si vous souhaitez rediriger davantage de ports, merci d'utiliser https://github.com/scith/shortcut_ynh"
+                },
+                "choices": ["Yes", "No"],
+                "default": "No"
+            },
+            {
+                "name": "redirect_domain",
+                "type": "domain",
+                "ask": {
+                    "en": "If so, Choose a domain for the container's app",
+                    "fr": "Si oui, Choisissez un domaine pour l'app du conteneur"
+                },
+                "example": "domain.org"
+            },
+            {
+                "name": "redirect_path",
+                "type": "path",
+                "ask": {
+                    "en": "If so, Choose a path for the container's app",
+                    "fr": "Si oui, Choisissez un chemin pour l'app du conteneur"
+                },
+                "example": "/sonarr",
+                "default": "/sonarr"
+            },
+			{
+                "name": "redirect_port",
+                "ask": {
+                    "en": "If so, Choose a host port (NOT a container port!) which will be redirected to the domain/path",
+                    "fr": "Si oui, Choisissez un port hôte (ET NON un port conteneur !) qui sera redirigé vers le domaine/chemin"
+                },
+                "example": "8989",
+                "default": "8989"
+            },
+			{
+                "name": "redirect_public",
+                "ask": {
+                    "en": "Is it a public container ?",
+                    "fr": "Est-ce un conteneur public ?"
+                },
+                "choices": ["Yes", "No"],
+                "default": "No"
             }
         ]
     }
