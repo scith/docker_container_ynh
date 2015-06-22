@@ -50,7 +50,6 @@ sudo docker run -d $command --name=$name $repository
 sudo sed -i "s@CONTAINERNAME@$name@g" ../conf/systemd.service
 sudo cp ../conf/systemd.service /etc/systemd/system/multi-user.target.wants/container-$name.service
 sudo chmod 644 /etc/systemd/system/multi-user.target.wants/container-$name.service
-sudo systemctl daemon-reload
 sudo yunohost service add container-$name
 
 sudo service nginx reload
