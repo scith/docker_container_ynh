@@ -14,13 +14,9 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
 DESC="Docker container CONTAINERNAME"
 NAME=container-CONTAINERNAME
 CONTAINER=CONTAINERNAME
-DAEMON=/usr/bin/docker
 SCRIPTNAME=/etc/init.d/$NAME
 DAEMONUSER=admin
 #LOGFILE=/usr/bin/docker logs -f $CONTAINER
-
-# Exit if the package is not installed
-[ -x "$DAEMON" ] || exit 0
 
 function _status() {
     #?

@@ -4,7 +4,7 @@ domain=$(sudo yunohost app setting dockercontainer domain)
 name=$(sudo yunohost app setting dockercontainer name)
 
 sudo yunohost service remove container-$name
-sudo rm /etc/init.d/container-$name
+sudo rm /etc/systemd/system/multi-user.target.wants/container-$name.service
 
 sudo docker stop $name
 sudo docker rm $name

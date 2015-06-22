@@ -1,0 +1,15 @@
+[Unit]
+Description=Container CONTAINERNAME
+Requires=docker.service
+After=docker.service
+
+[Service]
+User=admin
+Restart=on-failure
+RestartSec=5
+ExecStartPre=-/usr/bin/docker stop CONTAINERNAME
+ExecStart=/usr/bin/docker start CONTAINERNAME
+ExecStop=-/usr/bin/docker stop CONTAINERNAME
+
+[Install]
+WantedBy=multi-user.target
