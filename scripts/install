@@ -79,7 +79,7 @@ then
 	redirect_path=${redirect_path%/}
 	sed -i "s@PATHTOCHANGE@$redirect_path@g" ../conf/nginx.conf
 	sed -i "s@PORTTOCHANGE@$redirect_port@g" ../conf/nginx.conf
-	sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/container-$name.conf
+	sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$redirect_domain.d/dockercontainer.conf
 	
 	sudo yunohost app setting dockercontainer is_public -v "$redirect_public"
 	if [ "$redirect_public" = "Yes" ];
