@@ -1,37 +1,17 @@
 #!/bin/bash
 
-set -e
-
 # Retrieve arguments
 name=$1
 repository=$2
 restart=$3
 home=$4
 command=$5
-redirect=$6
-redirect_domain=$7
-redirect_path=$8
-redirect_port=$9
-redirect_public=$10
 
 # Check container's ports availability - TBD
 #sudo yunohost app checkport 9000
 #if [[ ! $? -eq 0 ]]; then
 #  exit 1
 #fi
-
-# Check if the application can be created after the container
-if [ "$redirect" = "Yes" ];
-then
-	# Check domain/path availability
-		sudo yunohost app checkurl $redirect_domain$redirect_path -a dockercontainer \
-		|| (echo "Path not available: $redirect_domain$redirect_path" && exit 1)
-
-	sudo yunohost app checkport $redirect_port
-	if [[ ! $? -eq 0 ]]; then
-	  exit 1
-	fi
-fi
 
 # Install Docker if it is not installed yet
 if [ -f /usr/bin/docker ]; then
@@ -49,6 +29,9 @@ fi
 sudo service docker restart
 
 # Create Docker container
+sudo yunohost app setting dockercontainer name -v $name
+sudo yunohost app setting dockercontainer home -v $home
+
 if [ "$home" = "Yes" ];
 then
 	sudo mkdir -p /home/yunohost.docker/container-$name
@@ -60,7 +43,6 @@ then
 	command+=" --restart always"
 fi
 
-
 sudo docker run -d $command --name=$name $repository
 
 # Manage container as daemon with systemd - only compatible with Debian Jessie & YNH 2.2
@@ -70,26 +52,3 @@ sudo chmod 777 /etc/systemd/system/container-$name.service
 sudo systemctl enable /etc/systemd/system/container-$name.service
 sudo systemctl daemon-reload
 sudo yunohost service add container-$name
-
-# Add the application for the container
-if [ "$redirect" = "Yes" ];
-then
-	redirect_path=${redirect_path%/}
-	sed -i "s@PATHTOCHANGE@$redirect_path@g" ../conf/nginx.conf
-	sed -i "s@PORTTOCHANGE@$redirect_port@g" ../conf/nginx.conf
-	sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$redirect_domain.d/dockercontainer.conf
-	
-	sudo yunohost app setting dockercontainer is_public -v "$redirect_public"
-	if [ "$redirect_public" = "Yes" ];
-	then
-		sudo yunohost app setting dockercontainer skipped_uris -v "/"
-	fi
-	sudo yunohost app setting dockercontainer domain -v $redirect_domain
-fi
-
-sudo yunohost app setting dockercontainer name -v $name
-sudo yunohost app setting dockercontainer home -v $home
-sudo yunohost app setting dockercontainer redirect -v $redirect
-
-sudo service nginx reload
-sudo yunohost app ssowatconf
