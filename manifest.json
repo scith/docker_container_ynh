@@ -37,10 +37,19 @@
                 "default": "Yes"
             },
 			{
-                "name": "home",
+                "name": "datacontainer",
                 "ask": {
-                    "en": "Do you want to mount the volume /home/yunohost.docker/container-NAME inside the container as /home/yunohost?",
-                    "fr": "Souhaitez-vous monter le volume /home/yunohost.docker/container-NAME dans votre conteneur comme /home/yunohost ?"
+                    "en": "Do you want to store data in a data volume container? (See https://docs.docker.com/userguide/dockervolumes/)",
+                    "fr": "Souhaitez-vous activer la fonctionnalité de backup s'appuyant sur des conteneurs de données ? (Voir explications sur GitHub)"
+                },
+                "choices": ["Yes", "No"],
+                "default": "Yes"
+            },
+			{
+                "name": "volume",
+                "ask": {
+                    "en": "Do you want to create the folder /home/yunohost.docker/container-NAME in order to mount it in the container?",
+                    "fr": "Souhaitez-vous créer le dossier /home/yunohost.docker/container-NAME afin de pouvoir le monter dans le conteneur ?"
                 },
                 "choices": ["Yes", "No"],
                 "default": "No"
@@ -51,7 +60,7 @@
                     "en": "Enter the container's options",
                     "fr": "Entrez les options du conteneur"
                 },
-                "example": "-p 8989:8989 -v /home/media/:/volumes/media"
+                "example": "-p 127.0.0.1:8989:8989 -v /home/yunohost.docker/container-NAME/:/home/yunohost/"
             }
         ]
     }

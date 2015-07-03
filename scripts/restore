@@ -1,3 +1,32 @@
-#! /bin/bash
+#!/bin/bash
 
-# TBD
+app=dockercontainer
+name=$(sudo yunohost app setting $app name)
+repository=$(sudo yunohost app setting $app repository)
+datacontainer=$(sudo yunohost app setting $app datacontainer)
+
+# The parameter $1 is the backup directory location which will be compressed afterward
+	backup_dir=$1/apps/container-$name
+	mkdir -p $backup_dir
+
+# Backup container's volumes
+	if [ "$datacontainer" = "Yes" ];
+	then
+		echo 'Restoring with data container'
+		sudo docker stop $name
+		sudo docker stop $name-data
+		docker run --rm --volumes-from $name-data -v $backup_dir:/backup $repository tar xvf /backup/container-$name.tar
+	else
+		echo 'Restoring without data container'
+		sudo docker stop $name
+		docker run --rm --volumes-from $name -v $backup_dir:/backup $repository tar xvf /backup/container-$name.tar
+	fi
+
+# Restore the systemd service
+	sudo cp -a $backup_dir/container-$name.service /etc/systemd/system/container-$name.service
+	sudo chmod 777 /etc/systemd/system/container-$name.service
+	sudo systemctl enable /etc/systemd/system/container-$name.service
+	sudo systemctl daemon-reload
+
+# Restore YunoHost parameters
+	sudo cp -a $backup_dir/yunohost/. /etc/yunohost/apps/$app

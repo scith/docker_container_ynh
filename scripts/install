@@ -4,8 +4,9 @@
 name=$1
 repository=$2
 restart=$3
-home=$4
-command=$5
+datacontainer=$4
+volume=$5
+command=$6
 
 # Check container's ports availability - TBD
 #sudo yunohost app checkport 9000
@@ -30,12 +31,13 @@ sudo service docker restart
 
 # Create Docker container
 sudo yunohost app setting dockercontainer name -v $name
-sudo yunohost app setting dockercontainer home -v $home
+sudo yunohost app setting dockercontainer repository -v $repository
+sudo yunohost app setting dockercontainer datacontainer -v $datacontainer
+sudo yunohost app setting dockercontainer volume -v $volume
 
-if [ "$home" = "Yes" ];
+if [ "$volume" = "Yes" ];
 then
 	sudo mkdir -p /home/yunohost.docker/container-$name
-	command+=" -v /home/yunohost.docker/container-$name:/home/yunohost"
 fi
 
 if [ "$restart" = "Yes" ];
@@ -43,6 +45,13 @@ then
 	command+=" --restart always"
 fi
 
+if [ "$datacontainer" = "Yes" ];
+then
+	sudo docker create --name=$name-data $repository /bin/true
+	command+=" --volumes-from $name-data"
+fi
+
+sudo yunohost app setting dockercontainer command -v $command
 sudo docker run -d $command --name=$name $repository
 
 # Manage container as daemon with systemd - only compatible with Debian Jessie & YNH 2.2

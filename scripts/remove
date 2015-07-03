@@ -1,19 +1,29 @@
 #!/bin/bash
 
-# Remove Docker container and systemd service but keep the pulled image and Docker
-name=$(sudo yunohost app setting dockercontainer name)
-sudo yunohost service remove container-$name
-sudo rm /etc/systemd/system/container-$name.service
-sudo docker stop $name
-sudo docker rm $name
+app=dockercontainer
+name=$(sudo yunohost app setting $app name)
+datacontainer=$(sudo yunohost app setting $app datacontainer)
+volume=$(sudo yunohost app setting dockercontainer volume)
 
-# Remove home folder
-home=$(sudo yunohost app setting dockercontainer home)
-if [ "$home" = "Yes" ];
-then
-	sudo rm -rf /home/yunohost.docker/container-$name
-fi
+# Remove Docker container and systemd service but keep the pulled image and Docker
+	sudo yunohost service remove container-$name
+	sudo rm /etc/systemd/system/container-$name.service
+
+	sudo docker stop $name
+	sudo docker rm $name
+
+# Remove data container
+	if [ "$datacontainer" = "Yes" ];
+	then
+		sudo docker stop $name-data
+		sudo docker rm $name-data
+	fi
+
+# Remove volume folder
+	if [ "$volume" = "Yes" ];
+	then
+		sudo rm -rf /home/yunohost.docker/container-$name
+	fi
 
 # Reload
-sudo service nginx reload
-sudo yunohost app ssowatconf 
+	sudo service nginx reload
