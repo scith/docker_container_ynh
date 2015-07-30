@@ -7,7 +7,7 @@ datacontainer=$(sudo yunohost app setting $app datacontainer)
 
 # The parameter $1 is the backup directory location which will be compressed afterward
 	backup_dir=$1/apps/container-$name
-	mkdir -p $backup_dir
+	sudo mkdir -p $backup_dir
 
 # Backup container's volumes
 	if [ "$datacontainer" = "Yes" ];
