@@ -19,7 +19,7 @@ datacontainer=$(sudo yunohost app setting $app datacontainer)
 	else
 		echo 'Backing up without data container'
 		sudo docker stop $name
-		docker run --rm --volumes-from $name -v $backup_dir:/backup $repository tar cvf /backup/container-$name.tar
+		sudo docker run --rm --volumes-from $name -v $backup_dir:/backup $repository tar cvf /backup/container-$name.tar
 	fi
 
 # Copy the systemd service
